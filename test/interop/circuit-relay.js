@@ -117,8 +117,8 @@ describe('circuit interop', () => {
   it('jsTCP <-> goRelay <-> jsWS', (done) => {
     const data = crypto.randomBytes(128)
     series([
-      (cb) => jsTCP.swarm.connect(goRelayAddrs[2], cb),
       (cb) => jsWS.swarm.connect(goRelayAddrs[0], cb),
+      (cb) => jsTCP.swarm.connect(goRelayAddrs[1], cb),
       (cb) => setTimeout(cb, 1000),
       (cb) => jsWS.swarm.connect(jsTCPAddrs[0], cb)
     ], (err) => {
@@ -135,7 +135,7 @@ describe('circuit interop', () => {
     const data = crypto.randomBytes(128)
     series([
       (cb) => goWS.swarm.connect(goRelayAddrs[0], cb),
-      (cb) => goTCP.swarm.connect(goRelayAddrs[2], cb),
+      (cb) => goTCP.swarm.connect(goRelayAddrs[1], cb),
       (cb) => setTimeout(cb, 1000),
       (cb) => goWS.swarm.connect(`/p2p-circuit/ipfs/${multiaddr(goTCPAddrs[0]).getPeerId()}`, cb)
     ], (err) => {
@@ -152,7 +152,7 @@ describe('circuit interop', () => {
     const data = crypto.randomBytes(128)
     series([
       (cb) => jsWS.swarm.connect(goRelayAddrs[0], cb),
-      (cb) => goTCP.swarm.connect(goRelayAddrs[2], cb),
+      (cb) => goTCP.swarm.connect(goRelayAddrs[1], cb),
       (cb) => setTimeout(cb, 1000),
       (cb) => goTCP.swarm.connect(`/p2p-circuit/ipfs/${multiaddr(jsWSAddrs[0]).getPeerId()}`, cb)
     ], (err) => {
